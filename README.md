@@ -1,7 +1,1 @@
-[!http://localhost:8080/buildStatus/icon?job=deployment!|http://localhost:8080/job/deployment/]
-
-[[image:http://localhost:8080/buildStatus/icon?job=deployment>>http://localhost:8080/job/deployment/||target='__new']]
-
-{<img src='http://localhost:8080/buildStatus/icon?job=deployment'/>}[http://localhost:8080/job/deployment/]
-
-"!http://localhost:8080/buildStatus/icon?job=deployment!":http://localhost:8080/job/deployment/
+[![Build Status](http://localhost:8080/job/deployment/badge/icon)](http://localhost:8080/job/deployment/)
