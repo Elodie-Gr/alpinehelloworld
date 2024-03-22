@@ -1,8 +1,8 @@
 #Grab the latest alpine image
 FROM --platform=linux/amd64 python:3.13.0a2-alpine
 
-# Install python and pip
-RUN apk add --no-cache --update python3 py3-pip bash
+# Install python and pip and npm
+RUN apk add --no-cache --update python3 py3-pip npm bash
 ADD ./webapp/requirements.txt /tmp/requirements.txt
 
 # Install dependencies
