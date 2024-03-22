@@ -7,7 +7,7 @@ pipeline {
        STAGING = "${ID_DOCKER}-staging"
        PRODUCTION = "${ID_DOCKER}-production"
      }
-     agent none
+     agent any
      stages {
          stage('Build image') {
              agent any
