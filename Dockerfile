@@ -8,6 +8,9 @@ ADD ./webapp/requirements.txt /tmp/requirements.txt
 # Install dependencies
 RUN pip3 install --no-cache-dir -q -r /tmp/requirements.txt
 
+# Install Npm
+RUN apt-get update && apt-get install -y npm
+
 # Add our code
 ADD ./webapp /opt/webapp/
 WORKDIR /opt/webapp
