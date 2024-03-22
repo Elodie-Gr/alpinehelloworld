@@ -12,14 +12,6 @@ RUN pip3 install --no-cache-dir -q -r /tmp/requirements.txt
 ADD ./webapp /opt/webapp/
 WORKDIR /opt/webapp
 
-#Install npm
-WORKDIR /app
-
-COPY package.json .
-RUN npm install
-COPY . .
-CMD ["npm", "start"]
-
 # Expose is NOT supported by Heroku
 # EXPOSE 5000 		
 

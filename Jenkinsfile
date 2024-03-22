@@ -67,48 +67,38 @@ pipeline {
           }
       }    
      
-     stage('Push image in staging and deploy it') {
-       when {
-              expression { GIT_BRANCH == 'origin/master' }
+     stage('Install Node.js and Heroku CLI') {
+            steps {
+                script {
+                    sh '''
+                        curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
+                        export NVM_DIR="$HOME/.nvm"
+                        [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+                        nvm install 14
+                        nvm use 14
+                        npm install -g heroku@8.11.0
+                    '''
+                }
             }
-      agent any
-      environment {
-          HEROKU_API_KEY = credentials('heroku_api_key')
-      }  
-      steps {
-          script {
-            sh '''
-              npm i -g heroku@7.68.0
-              heroku container:login
-              heroku create $STAGING || echo "project already exist"
-              heroku container:push -a $STAGING web
-              heroku container:release -a $STAGING web
-            '''
-          }
         }
-     }
-
-
-
-     stage('Push image in production and deploy it') {
-       when {
-              expression { GIT_BRANCH == 'origin/production' }
+        stage('Push image in staging and deploy it') {
+            when {
+                expression { GIT_BRANCH == 'origin/master' }
             }
-      agent any
-      environment {
-          HEROKU_API_KEY = credentials('heroku_api_key')
-      }  
-      steps {
-          script {
-            sh '''
-              npm i -g heroku@7.68.0
-              heroku container:login
-              heroku create $PRODUCTION || echo "project already exist"
-              heroku container:push -a $PRODUCTION web
-              heroku container:release -a $PRODUCTION web
-            '''
-          }
+            environment {
+                HEROKU_API_KEY = credentials('heroku_api_key')
+            }  
+            steps {
+                script {
+                    sh '''
+                        export PATH="$HOME/.nvm/versions/node/v14.21.3/bin:$PATH"
+                        heroku container:login
+                        heroku create $STAGING || echo "project already exist"
+                        heroku container:push -a $STAGING web
+                        heroku container:release -a $STAGING web
+                    '''
+                }
+            }
         }
-     }
   }
 }
